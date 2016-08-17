@@ -1,0 +1,7 @@
+
+---
+- hosts: all
+  tasks:
+    - shell: echo "hello world"
+    - name: install pkage
+      yum: pkg=httpd state=latest
