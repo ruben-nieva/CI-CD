@@ -1,0 +1,168 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Metadata": {
+    "AWS::CloudFormation::Designer": {
+      "e8a2c4c0-8550-4673-9f78-f9a198104e94": {
+        "size": {
+          "width": 60,
+          "height": 60
+        },
+        "position": {
+          "x": 310,
+          "y": 90
+        },
+        "z": 0,
+        "embeds": [],
+        "ismemberof": [
+          "79122196-b4d2-4f20-8053-61209ab851e4"
+        ]
+      },
+      "79122196-b4d2-4f20-8053-61209ab851e4": {
+        "size": {
+          "width": 60,
+          "height": 60
+        },
+        "position": {
+          "x": 85,
+          "y": 91
+        },
+        "z": 0,
+        "embeds": []
+      },
+      "ab5774d1-b080-4639-bfe3-0eaee27efb16": {
+        "source": {
+          "id": "e8a2c4c0-8550-4673-9f78-f9a198104e94"
+        },
+        "target": {
+          "id": "79122196-b4d2-4f20-8053-61209ab851e4"
+        },
+        "z": 1
+      },
+      "2cd875ac-82af-40bf-8148-1428b3dad2d7": {
+        "source": {
+          "id": "e8a2c4c0-8550-4673-9f78-f9a198104e94"
+        },
+        "target": {
+          "id": "8970714b-d632-405c-901b-a048083e242e"
+        },
+        "z": 2
+      },
+      "89b29a15-615f-47a4-a9f2-1489eaf3d8fa": {
+        "source": {
+          "id": "e8a2c4c0-8550-4673-9f78-f9a198104e94"
+        },
+        "target": {
+          "id": "8970714b-d632-405c-901b-a048083e242e"
+        },
+        "z": 11
+      },
+      "2662b2b5-b551-4eb3-9996-fe54786b1e47": {
+        "source": {
+          "id": "e8a2c4c0-8550-4673-9f78-f9a198104e94"
+        },
+        "target": {
+          "id": "79122196-b4d2-4f20-8053-61209ab851e4"
+        },
+        "z": 1
+      }
+    }
+  },
+  "Resources": {
+    "InstanceSG": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Security  Group For Ec2",
+        "VpcId": {
+          "Ref": "VpcID"
+        },
+        "SecurityGroupIngress": {
+          "CidrIp": "0.0.0.0/0",
+          "FromPort": "22",
+          "IpProtocol": "tcp",
+          "ToPort": "22"
+        }
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "79122196-b4d2-4f20-8053-61209ab851e4"
+        }
+      }
+    },
+    "Ec2Instance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "BlockDeviceMappings": [
+          {
+            "DeviceName": "/dev/sdm",
+            "Ebs": {
+              "VolumeType": "io1",
+              "Iops": "200",
+              "DeleteOnTermination": "false",
+              "VolumeSize": "20"
+            }
+          },
+          {
+            "DeviceName": "/dev/sdk",
+            "NoDevice": {}
+          }
+        ],
+        "KeyName": {
+          "Ref": "Key"
+        },
+        "InstanceType": {
+          "Ref": "InstanceType"
+        },
+        "ImageId": {
+          "Fn::FindInMap": [
+            "RegionMap",
+            {
+              "Ref": "AWS::Region"
+            },
+            "AMI"
+          ]
+        },
+        "SecurityGroupIds": [
+          {
+            "Ref": "InstanceSG"
+          }
+        ]
+      },
+      "Metadata": {
+        "AWS::CloudFormation::Designer": {
+          "id": "e8a2c4c0-8550-4673-9f78-f9a198104e94"
+        }
+      }
+    }
+  },
+  "Parameters": {
+    "VpcID": {
+      "Type": "AWS::EC2::VPC::Id",
+      "Description": "VPC ID"
+    },
+    "SubnetID": {
+      "Type": "AWS::EC2::Subnet::Id",
+      "Description": "Subnet"
+    },
+    "Key": {
+      "Type": "AWS::EC2::KeyPair::KeyName",
+      "Description": "KeyName",
+      "Default": "ansible-key"
+    },
+    "InstanceType": {
+      "Type": "String",
+      "AllowedValues": [
+        "t2.micro",
+        "t2.medium"
+      ],
+      "Default": "t2.micro"
+    }
+  },
+  "Mappings": {
+    "RegionMap": {
+      "us-west-2": {
+        "AMI": "ami-d2c924b2"
+      }
+    }
+  }
+}
+

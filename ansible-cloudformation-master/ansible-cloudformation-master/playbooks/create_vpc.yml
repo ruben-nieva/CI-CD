@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  connection: local
+  tasks: 
+  - name: create CF stack
+    cloudformation: 
+     stack_name: VPC-TEST
+     state: present
+     region: us-west-2
+     template: "CF_templates/multi-azs-pub-pri-subnet-vpc.template"
+    register: stack
+  - name: show stack outputs
+    #debug: msg="My stack outputs are {{stack.stack_outputs}}"
+    local_action: "copy content={{ stack.stack_outputs }} dest=/etc/ansible/var_files/stackout.txt" 
+        

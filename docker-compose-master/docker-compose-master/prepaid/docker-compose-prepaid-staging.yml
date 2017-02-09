@@ -1,0 +1,23 @@
+ version: '2.0' 
+ services:
+  consumer-app: 
+    image: $NEXUS/citruspay-prepaid-consumer-app:${tag}
+    restart: always 
+    volumes:  
+     - "/data/logs:/logs/" 
+     - "/opt/citruspay/prepaid:/opt/citruspay/prepaid" 
+    network_mode: "host" 
+  merchant-app: 
+    image: $NEXUS/citruspay-prepaid-merchant-app:${tag}
+    restart: always 
+    volumes:  
+     - "/data/logs:/logs/" 
+     - "/opt/citruspay/prepaid:/opt/citruspay/prepaid" 
+    network_mode: "host" 
+  internal-app: 
+    image: $NEXUS/citruspay-prepaid-internal-app:${tag}
+    restart: always 
+    volumes:  
+     - "/data/logs:/logs/" 
+     - "/opt/citruspay/prepaid:/opt/citruspay/prepaid" 
+    network_mode: "host"

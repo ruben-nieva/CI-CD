@@ -1,0 +1,8 @@
+---
+# defaults file for ansible-centos7-nginx
+# Reference https://www.digitalocean.com/community/tutorials/how-to-optimize-nginx-configuration
+nginx_user: lnc
+nginx_worker_processes: 4
+nginx_worker_connections: 1024
+nginx_pid: /var/run/nginx.pid
+nginx_error_log: /var/log/nginx/nginx_error_log

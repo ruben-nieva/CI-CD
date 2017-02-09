@@ -1,0 +1,16 @@
+
+- hosts: test
+  remote_user: ansible
+  become: yes
+  become_user: root
+  vars: 
+   packages: ['vim' , 'httpd']  
+   doc_root: /var/www/new
+  tasks:
+   - name:  install packages
+     yum: name={{ packages }}  state=latest
+   - name: change httpd doc root
+     template: src=vhost.tpl dest=/etc/httpd/conf/new.conf
+
+
+    

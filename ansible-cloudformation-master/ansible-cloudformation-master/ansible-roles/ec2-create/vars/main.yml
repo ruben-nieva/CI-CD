@@ -1,0 +1,6 @@
+env: staging
+aws_user:  centos
+ami_id: ami-7172b611
+aws_region: us-west-2
+project_name: lazypay
+instance_type: t2.micro

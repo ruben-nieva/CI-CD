@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  vars_files:
+    - /tmp/stackout.txt
+  tasks:
+  - name: Provision a set of instances
+    ec2:
+     key_name: ansible-key
+     instance_type: t2.micro
+     ec2_region: us-west-2
+     image: "ami-7172b611"
+     vpc_subnet_id: "{{ SubnetPrivateAZ1 }}"
+     wait: true
+     count: 1
+     instance_tags:
+      Name: Demo
+    register: ec2
+...
